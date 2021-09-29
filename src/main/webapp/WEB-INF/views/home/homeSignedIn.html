@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{view.index.title}">Welcome!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<div class="container">
+    <!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <!-- /* The message code is returned from the @Controller */ -->
+        <div th:replace="fragments/components :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
+    </th:block>
+    <p class="lead text-center">
+        Welcome to the Spring <span th:text="${springVersion}">0.0.0</span> MVC Quickstart application!
+
+
+
+
+
+        <table style="border: 1px solid black;width: 100%; height: 100%;">
+            <thead>
+            <tr>
+                <th> Id </th>
+                <th> Author </th>
+                <th> Name </th>
+                <th> Date </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${books.empty}">
+                <td colspan="2"> No Books Available </td>
+            </tr>
+            <tr th:else>
+                <tr th:each="book : ${books}">
+                    <td><span th:text="${book.id}"> ID </span></td>
+                    <td><span th:text="${book.name}"> Author </span></td>
+                    <td><span th:text="${book.description}"> Name </span></td>
+                    <td><span th:text="${book.dateCreated}"> Date created </span></td>
+                </tr>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+        <form action="#" th:action="@{/books}" th:object="${book}" method="post">
+            <fieldset>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th> Author</th>
+                            <th> Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input th:field="*{name}" /></td>
+                            <td><input th:field="*{description}" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <input type="submit" id="submitButton" th:value="Save">
+            </fieldset>
+        </form>
+
+    </p>
+    <div th:replace="fragments/layout :: footer"></div>
+</div>
+</body>
+</html>
